@@ -12,6 +12,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
+// Serve the React app
+app.use(express.static(path.join(__dirname, "../build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
+});
+
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -178,15 +185,17 @@ app.put("/update-page-details", (req, res) => {
 
 // Mark an animal as not adopted
 app.put("/unadopt-animal/:id", (req, res) => {
-    const { id } = req.params;
-    db.run(
-      "UPDATE pets SET adopted_by = NULL, adopter_ip = NULL WHERE id = ?",
-      [id],
-      function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json({ updated: this.changes });
-      }
-    );
-  });
+  const { id } = req.params;
+  db.run(
+    "UPDATE pets SET adopted_by = NULL, adopter_ip = NULL WHERE id = ?",
+    [id],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ updated: this.changes });
+    }
+  );
+});
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Set the port from environment variable or default to 5000
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

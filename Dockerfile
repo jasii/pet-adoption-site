@@ -20,12 +20,13 @@ RUN npm run build
 RUN npm install -g serve
 
 # Set the environment variables
-ENV REACT_APP_ADMIN_PASSWORD=admin123
-ENV REACT_APP_TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-ENV REACT_APP_TELEGRAM_CHAT_ID=your_telegram_chat_id
+ENV ADMIN_PASSWORD=admin123
+ENV TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+ENV TELEGRAM_CHAT_ID=your_telegram_chat_id
 
 # Expose the port the app runs on
+EXPOSE 3000
 EXPOSE 5000
 
-# Start the server
-CMD ["serve", "-s", "build"]
+# Start the server and the React app
+CMD ["npm", "start"]
