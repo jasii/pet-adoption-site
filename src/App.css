@@ -1,0 +1,98 @@
+/* Grid layout for pet cards */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Styling for each pet card */
+.card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  background: white;
+  transition: 0.3s;
+}
+
+/* Style adopted pets to be slightly transparent */
+.card.adopted {
+  opacity: 1;
+}
+
+/* Image styling */
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain; /* Ensure the full image is displayed without being cut off */
+  border-radius: 8px;
+}
+
+/* Button styling */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Adoption form styling */
+.adoption-form input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.adoption-form button {
+  display: block;
+  width: 100%;
+}
+
+/* Overlay styling */
+.overlay {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: green;
+  display: flex;
+  flex-direction: column; /* Ensure children are stacked vertically */
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: bold;
+  border-radius: 10px;
+  rotate: -15deg;
+}
+
+.emoji {
+  margin-top: 0px; /* Add some space between the text and the emoji */
+  margin-left:150px;
+}
+
+/* Description section styling */
+.description-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.description-section h2 {
+  margin-bottom: 10px;
+}
+
+.description-section p {
+  margin: 0;
+}
