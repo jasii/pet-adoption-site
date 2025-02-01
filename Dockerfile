@@ -37,11 +37,11 @@ FROM node:14 AS server
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json for the backend
 COPY backend/package*.json ./backend/
 
-# Install dependencies
-RUN npm ci --prefix backend
+# Install dependencies for the backend
+RUN cd backend && npm ci
 
 # Copy the rest of the backend code
 COPY backend ./backend

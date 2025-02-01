@@ -4,7 +4,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
-const fetch = require("node-fetch");
 
 const app = express();
 const db = new sqlite3.Database("./pets.db");
@@ -115,6 +114,7 @@ app.post("/adopt", (req, res) => {
         const message = `Pet: ${id} has been adopted by ${adopteeName} (IP: ${ip})`;
         const TELEGRAM_WEBHOOK_URL = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
         const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+        const fetch = (await import('node-fetch')).default;
         await fetch(TELEGRAM_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
