@@ -34,6 +34,7 @@ const upload = multer({ storage: storage });
 db.serialize(() => {
   db.run("CREATE TABLE IF NOT EXISTS pets (id INTEGER PRIMARY KEY, name TEXT, description TEXT, image TEXT, adopted_by TEXT, adopter_ip TEXT)");
   db.run("CREATE TABLE IF NOT EXISTS page_details (id INTEGER PRIMARY KEY, title TEXT, description TEXT)");
+  db.run("CREATE TABLE IF NOT EXISTS website_title (id INTEGER PRIMARY KEY, title TEXT)");
 
   // Seed database with initial data
   db.run("DELETE FROM pets"); // Clear existing data
@@ -59,6 +60,14 @@ db.serialize(() => {
     if (err) return console.error(err.message);
     if (row.count === 0) {
       db.run("INSERT INTO page_details (title, description) VALUES (?, ?)", ["Welcome to the Pet Adoption Center", "Here you can find a variety of pets looking for a loving home. Browse through the list of available pets and adopt one today!"]);
+    }
+  });
+
+  // Seed website title if not exists
+  db.get("SELECT COUNT(*) AS count FROM website_title", (err, row) => {
+    if (err) return console.error(err.message);
+    if (row.count === 0) {
+      db.run("INSERT INTO website_title (title) VALUES (?)", ["Pet Adoption Site"]);
     }
   });
 });
@@ -176,6 +185,27 @@ app.put("/update-page-details", (req, res) => {
   db.run(
     "UPDATE page_details SET title = ?, description = ? WHERE id = 1",
     [title, description],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ updated: this.changes });
+    }
+  );
+});
+
+// Get website title
+app.get("/website-title", (req, res) => {
+  db.get("SELECT * FROM website_title WHERE id = 1", (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(row);
+  });
+});
+
+// Update website title
+app.put("/update-website-title", (req, res) => {
+  const { title } = req.body;
+  db.run(
+    "UPDATE website_title SET title = ? WHERE id = 1",
+    [title],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ updated: this.changes });

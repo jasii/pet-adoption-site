@@ -13,9 +13,11 @@ export default function Admin() {
   const [editAnimal, setEditAnimal] = useState(null);
   const [pageTitle, setPageTitle] = useState("");
   const [pageDescription, setPageDescription] = useState("");
+  const [websiteTitle, setWebsiteTitle] = useState("");
 
   useEffect(() => {
     fetchPageDetails();
+    fetchWebsiteTitle();
   }, []);
 
   const handleLogin = () => {
@@ -38,6 +40,12 @@ export default function Admin() {
     const data = await response.json();
     setPageTitle(data.title);
     setPageDescription(data.description);
+  };
+
+  const fetchWebsiteTitle = async () => {
+    const response = await fetch("http://localhost:5000/website-title");
+    const data = await response.json();
+    setWebsiteTitle(data.title);
   };
 
   const handleAddAnimal = async () => {
@@ -114,6 +122,19 @@ export default function Admin() {
     }
   };
 
+  const handleUpdateWebsiteTitle = async () => {
+    const response = await fetch("http://localhost:5000/update-website-title", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: websiteTitle }),
+    });
+    if (response.ok) {
+      alert("Website title updated successfully");
+    } else {
+      alert("Error updating website title");
+    }
+  };
+
   const handleUnadoptAnimal = async (id) => {
     const response = await fetch(`http://localhost:5000/unadopt-animal/${id}`, {
       method: "PUT",
@@ -143,6 +164,16 @@ export default function Admin() {
   return (
     <div className="admin-page">
       <h2>Admin Page</h2>
+      <div className="website-title-form">
+        <h3>Edit Website Title</h3>
+        <input
+          type="text"
+          placeholder="Website Title"
+          value={websiteTitle}
+          onChange={(e) => setWebsiteTitle(e.target.value)}
+        />
+        <button onClick={handleUpdateWebsiteTitle}>Update Website Title</button>
+      </div>
       <div className="page-details-form">
         <h3>Edit Page Details</h3>
         <input

@@ -12,6 +12,7 @@ export default function PetAdoption() {
   const [pets, setPets] = useState([]);
   const [pageTitle, setPageTitle] = useState("");
   const [pageDescription, setPageDescription] = useState("");
+  const [websiteTitle, setWebsiteTitle] = useState("");
 
   // Fetch user IP address
   useEffect(() => {
@@ -43,6 +44,14 @@ export default function PetAdoption() {
         setPageDescription(data.description);
       })
       .catch((error) => console.error("Error fetching page details:", error));
+
+    // Fetch website title
+    fetch("http://localhost:5000/website-title")
+      .then((response) => response.json())
+      .then((data) => {
+        setWebsiteTitle(data.title);
+      })
+      .catch((error) => console.error("Error fetching website title:", error));
   }, []);
 
   const handleAdoptClick = async (id) => {
@@ -115,6 +124,7 @@ export default function PetAdoption() {
 
   return (
     <div>
+      <h1>{websiteTitle}</h1>
       <div className="description-section">
         <h2>{pageTitle}</h2>
         <p>{pageDescription}</p>
