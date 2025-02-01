@@ -29,4 +29,4 @@ EXPOSE 3000
 EXPOSE 5000
 
 # Start the server and the React app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
