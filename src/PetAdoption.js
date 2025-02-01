@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const TELEGRAM_WEBHOOK_URL = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
 export default function PetAdoption() {
   const [adoptedPets, setAdoptedPets] = useState({});
   const [showForm, setShowForm] = useState({});
@@ -105,14 +102,6 @@ export default function PetAdoption() {
       setAdoptedPets(adopted);
       setShowForm((prev) => ({ ...prev, [id]: false }));
       setAdopteeName("");
-
-      // Send Telegram notification
-      const message = `Pet: ${petName} has been adopted by ${adopteeName} (IP: ${userIp})`;
-      await fetch(TELEGRAM_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
-      });
     } catch (error) {
       alert("Error adopting pet: " + error.message);
     }

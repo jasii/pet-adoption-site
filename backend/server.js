@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
+const fetch = require("node-fetch");
 
 const app = express();
 const db = new sqlite3.Database("./pets.db");
@@ -107,8 +108,19 @@ app.post("/adopt", (req, res) => {
     db.run(
       "UPDATE pets SET adopted_by = ?, adopter_ip = ? WHERE id = ?",
       [adopteeName, ip, id],
-      (err) => {
+      async (err) => {
         if (err) return res.status(500).json({ error: err.message });
+
+        // Send Telegram notification
+        const message = `Pet: ${id} has been adopted by ${adopteeName} (IP: ${ip})`;
+        const TELEGRAM_WEBHOOK_URL = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
+        const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+        await fetch(TELEGRAM_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
+        });
+
         res.json({ message: "Pet adopted successfully" });
       }
     );
