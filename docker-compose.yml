@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "5000:5000"
+      - "3000:3000"
     environment:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
