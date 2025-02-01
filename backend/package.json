@@ -1,25 +1,22 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node backend/server.js",
-    "client": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Backend for Pet Adoption Site",
   "dependencies": {
-    "body-parser": "^1.20.3",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "node-fetch": "^3.3.2",
-    "sqlite3": "^5.1.7"
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "sqlite3": "^5.0.0",
+    "multer": "^1.4.2",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.18.6"
